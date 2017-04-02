@@ -3,15 +3,22 @@ package scalashop
 import java.awt._
 import java.awt.event._
 import javax.swing._
-import javax.swing.event._
-import scala.collection.parallel._
-import scala.collection.par._
-import scala.collection.mutable.ArrayBuffer
-import scala.reflect.ClassTag
+
 import org.scalameter._
-import common._
 
 object ScalaShop {
+
+  val frame = new ScalaShopFrame
+
+  try {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+  } catch {
+    case _: Exception => println("Cannot set look and feel, using the default one.")
+  }
+
+  def main(args: Array[String]) {
+    frame.repaint()
+  }
 
   class ScalaShopFrame extends JFrame("ScalaShop\u2122") {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
@@ -126,18 +133,6 @@ object ScalaShop {
       filterCombo.getSelectedItem.asInstanceOf[String]
     }
 
-  }
-
-  try {
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-  } catch {
-    case _: Exception => println("Cannot set look and feel, using the default one.")
-  }
-
-  val frame = new ScalaShopFrame
-
-  def main(args: Array[String]) {
-    frame.repaint()
   }
 
 }

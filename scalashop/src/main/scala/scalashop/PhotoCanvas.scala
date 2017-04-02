@@ -1,13 +1,10 @@
 package scalashop
 
 import java.awt._
-import java.awt.event._
 import java.awt.image._
 import java.io._
 import javax.imageio._
 import javax.swing._
-import javax.swing.event._
-import common._
 
 class PhotoCanvas extends JComponent {
 
@@ -19,17 +16,21 @@ class PhotoCanvas extends JComponent {
     new Dimension(image.width, image.height)
   }
 
-  private def loadScalaImage(): Img = {
-    val stream = this.getClass.getResourceAsStream("/scalashop/scala.jpg")
-    try {
-      loadImage(stream)
-    } finally {
-      stream.close()
-    }
+  def loadFile(path: String): Unit = {
+    imagePath = Some(path)
+    reload()
   }
 
-  private def loadFileImage(path: String): Img = {
-    val stream = new FileInputStream(path)
+  def reload(): Unit = {
+    image = imagePath match {
+      case Some(path) => loadFileImage(path)
+      case None => loadScalaImage()
+    }
+    repaint()
+  }
+
+  private def loadScalaImage(): Img = {
+    val stream = this.getClass.getResourceAsStream("/scalashop/scala.jpg")
     try {
       loadImage(stream)
     } finally {
@@ -46,17 +47,13 @@ class PhotoCanvas extends JComponent {
     img
   }
 
-  def reload(): Unit = {
-    image = imagePath match {
-      case Some(path) => loadFileImage(path)
-      case None => loadScalaImage()
+  private def loadFileImage(path: String): Img = {
+    val stream = new FileInputStream(path)
+    try {
+      loadImage(stream)
+    } finally {
+      stream.close()
     }
-    repaint()
-  }
-
-  def loadFile(path: String): Unit = {
-    imagePath = Some(path)
-    reload()
   }
 
   def applyFilter(filterName: String, numTasks: Int, radius: Int) {

@@ -1,5 +1,4 @@
 
-import common._
 
 package object scalashop {
 
@@ -30,17 +29,19 @@ package object scalashop {
     else v
   }
 
-  /** Image is a two-dimensional matrix of pixel values. */
-  class Img(val width: Int, val height: Int, private val data: Array[RGBA]) {
-    def this(w: Int, h: Int) = this(w, h, new Array(w * h))
-    def apply(x: Int, y: Int): RGBA = data(y * width + x)
-    def update(x: Int, y: Int, c: RGBA): Unit = data(y * width + x) = c
-  }
-
   /** Computes the blurred RGBA value of a single pixel of the input image. */
   def boxBlurKernel(src: Img, x: Int, y: Int, radius: Int): RGBA = {
     // TODO implement using while loops
     ???
+  }
+
+  /** Image is a two-dimensional matrix of pixel values. */
+  class Img(val width: Int, val height: Int, private val data: Array[RGBA]) {
+    def this(w: Int, h: Int) = this(w, h, new Array(w * h))
+
+    def apply(x: Int, y: Int): RGBA = data(y * width + x)
+
+    def update(x: Int, y: Int, c: RGBA): Unit = data(y * width + x) = c
   }
 
 }
